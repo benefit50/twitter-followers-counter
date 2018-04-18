@@ -3,6 +3,7 @@
 namespace App\Exceptions;
 
 use Exception;
+use RunTimeException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
 class Handler extends ExceptionHandler
@@ -48,6 +49,20 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        if ($exception instanceof RuntimeException) {
+
+            /**
+             * Handling the exception thrown by Thujohn\Twitter package, in case API calls limits reached, or a
+             * wrong request was sent.
+             *
+             * A good practice will be to include the request details in the exception (ex. ids) on where the request failed,
+             * and defer it on another queue job scheduled after 15 minutes.
+             *
+             * However, this isn't supported by Thujohn\Twitter package.
+             */
+
+        }
+
         return parent::render($request, $exception);
     }
 }
